@@ -6,7 +6,6 @@ from app.dao.model.movie import Movie
 class MovieDAO:
     def __init__(self, session):
         self.session = session
-
     def get_movie(self):
         gid = request.args.get("genre_id")
         did = request.args.get("director_id")
@@ -19,3 +18,11 @@ class MovieDAO:
 
     def get_all(self):
         return self.session.query(Movie).all()
+
+    def create(self, data):
+        movie = Movie(**data)
+
+        self.session.add(movie)
+        self.session.commit()
+
+        return movie

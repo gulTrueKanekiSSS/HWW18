@@ -6,3 +6,5 @@ class MovieService:
         return self.dao.get_movie()
     def get_all(self):
         return self.dao.get_all()
+    def create(self, data):
+        return self.dao.create(data)

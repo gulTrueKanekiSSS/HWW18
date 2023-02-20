@@ -24,8 +24,6 @@ class DirectorDAO:
         self.session.commit()
 
         return director
-    def update_partial(self, data):
-        pass
 
     def delete(self, did):
         director = self.get_one(did)

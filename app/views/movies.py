@@ -47,6 +47,11 @@ class MoviesView(Resource):
         else:
             all_movie = movie_dao.get_all()
             return movies_schema.dump(all_movie), 200
+    def post(self):
+        req_json = request.json
+        movie_dao.create(req_json)
+
+        return "", 201
 
 
 @movies_ns.route('/<int:mid>')
