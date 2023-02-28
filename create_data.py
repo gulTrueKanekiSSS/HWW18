@@ -8,7 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 from marshmallow import Schema, fields
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///movies.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -32,10 +32,21 @@ class Director(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
 
+
 class Genre(db.Model):
     __tablename__ = 'genre'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
+
+
+class User(db.Model):
+    __tablename__ = 'user'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String)
+    password = db.Column(db.String)
+    role = db.Column(db.String)
+
+
 
 db.drop_all()
 db.create_all()
@@ -260,8 +271,8 @@ for movie in data["movies"]:
 
 for director in data["directors"]:
     d = Director(
-        id=director["pk"],
-        name=director["name"],
+        id = director["pk"],
+        name = director["name"],
     )
     with db.session.begin():
         db.session.add(d)

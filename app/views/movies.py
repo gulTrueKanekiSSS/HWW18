@@ -4,6 +4,7 @@ from flask_restx import Resource, Namespace
 from app.container import movie_dao
 from app.dao.model.movie import Movie_scheme, Movie
 from app.data_base import db
+from decorator import auth_reguired, admin_reguired
 
 movies_ns = Namespace('movies')
 
@@ -12,6 +13,7 @@ movies_schema = Movie_scheme(many=True)
 
 @movies_ns.route('/')
 class MoviesView(Resource):
+    @auth_reguired
     def get(self):
         director_id = request.args.get("director_id")
 
@@ -47,6 +49,7 @@ class MoviesView(Resource):
         else:
             all_movie = movie_dao.get_all()
             return movies_schema.dump(all_movie), 200
+    @admin_reguired
     def post(self):
         req_json = request.json
         movie_dao.create(req_json)
@@ -56,6 +59,7 @@ class MoviesView(Resource):
 
 @movies_ns.route('/<int:mid>')
 class MovieView(Resource):
+    @auth_reguired
     def get(self, mid: int):
         try:
             movie = db.session.query(Movie).filter(Movie.id == mid).one()
